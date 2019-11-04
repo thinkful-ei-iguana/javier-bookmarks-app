@@ -21,7 +21,7 @@ const addItem = function (item) {
 // };
 
 const findAndUpdate = function (id, newData) {
-  const currentItem = this.findById(id);
+  let currentItem = this.findById(id);
   Object.assign(currentItem, newData);
 };
 

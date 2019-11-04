@@ -7,31 +7,32 @@ import store from './store.js';
 import shoppingList from './shopping-list';
 // api.createItem('Pears');
 
-// api.getItems()
-//   .then(res => res.json())
-//   .then((items) => {
-//     console.log(items);
-//     items.forEach((item) => store.addItem(item));
-//     shoppingList.render();
-//   });
+api.getItems()
+  .then(res => res.json())
+  .then((items) => {
+    console.log(items)
+    items.forEach((item) => store.addItem(item));
+    shoppingList.render();
+  });
 
 
 
 const main = function () {
   api.getItems()
-    .then(res => res.json())
-    .then((items) => {
-      const item = items[0];
-      console.log(item.name);
-      return api.updateItem(item.id, { name: 'foobar' });
-    })
-  // .then(res => res.json())  --breaking code
-    .then(() => console.log('updated!'));
+  .then(res => res.json())
+  .then((items) => {
+    console.log(api.BASE_URL);
+    store.items = items;
+    const item = store.items[1];
+    console.log(item);
+    console.log("current name: " + item.name);
+    store.findAndUpdate(item.id, { name: "foobar" });
+    console.log("new name: " + item.name);
+  })
+  //.then(res => res.json()) breaking code
+  .then(() => console.log('updated!'));
   
-  const item = store.items[0];
-  console.log('current name: ' + item.name);
-  store.findAndUpdate(item.id, { name: 'foobar' });
-  console.log('new name: ' + item.name);
+
   
   shoppingList.bindEventListeners();
   shoppingList.render();
