@@ -99,7 +99,7 @@ const handleItemCheckClicked = function () {
     const item = store.items.find(item => item.id === id);
 
     api.updateItem(id, !item.checked)
-
+      
         store.findAndUpdate(id, { checked: !item.checked });
         render();
       })
