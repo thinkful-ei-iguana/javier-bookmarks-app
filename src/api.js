@@ -1,4 +1,4 @@
-const BASE_URL = 'https://thinkful-list-api.herokuapp.com/[yourname]';
+const BASE_URL = 'https://thinkful-list-api.herokuapp.com/javier-michael';
 
 const getItems = function () {
   return fetch(`${BASE_URL}/items`);
@@ -8,7 +8,7 @@ const getItems = function () {
 const createItem = function(name){
   let newItem = JSON.stringify({name: name});
  
-  fetch(`${BASE_URL}/items`, {
+  return fetch(`${BASE_URL}/items`, {
     method: 'POST',
     headers: {'Content-type': 'application/json'},
     body: newItem
@@ -16,10 +16,11 @@ const createItem = function(name){
 };
 
 const updateItem = function(id, updateData){
-  fetch(`${BASE_URL}/items/${id}`,{
+  let json = JSON.stringify(updateData);
+  return fetch(`${BASE_URL}/items/${id}`,{
     method: 'PATCH',
     headers: {'Content-type': 'application/json'},
-    body: JSON.stringify(updateData)
+    body: json
   });
 };
 
