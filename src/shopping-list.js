@@ -84,25 +84,26 @@ const handleEditShoppingItemSubmit = function () {
     event.preventDefault();
     const id = getItemIdFromElement(event.currentTarget);
     const itemName = $(event.currentTarget).find('.shopping-item').val();
-    store.findAndUpdateName(id, itemName);
-
-    api.updateItem(id, {name: itemName})
-     
-        store.findAndUpdate(id, {name: itemName});
-        render();
+    
+    api.updateItem(id, { name: itemName })
       
-  });
+        store.findAndUpdate(id, { name: newItem });
+        render();
+      })
 };
 
 const handleItemCheckClicked = function () {
   $('.js-shopping-list').on('click', '.js-item-toggle', event => {
     const id = getItemIdFromElement(event.currentTarget);
 
-    
-    api.updateItem(id, {checked: !item.checked})
-        store.findAndUpdate(id, {checked: !item.checked});
+    const item = store.items.find(item => item.id === id);
+
+    api.updateItem(id, !item.checked)
+
+        store.findAndUpdate(id, { checked: !item.checked });
         render();
-  });
+      })
+
 };
 
 const handleToggleFilterClick = function () {
