@@ -6,7 +6,15 @@ import store from './store.js';
 
 import shoppingList from './shopping-list';
 api.createItem('Pears');
-const main = function () {
+
+api.getItems()
+  .then(res => res.json())
+  .then((items) => {
+    console.log(items)
+    items.forEach((item) => store.addItem(item));
+    shoppingList.render();
+  });
+
   api.getItems()
     .then(res => res.json())
     .then((items) => {
@@ -15,6 +23,8 @@ const main = function () {
     })
     .then(res => res.json())
     .then(() => console.log('updated!'));
+const main = function () {
+  
   shoppingList.bindEventListeners();
   shoppingList.render();
 };
