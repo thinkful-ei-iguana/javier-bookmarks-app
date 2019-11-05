@@ -3,6 +3,7 @@ import api from './api';
 import 'normalize.css';
 import './index.css';
 import store from './store.js';
+import bookmarks from './bookmarks.js'
 
 
 
@@ -10,8 +11,8 @@ import store from './store.js';
 
 const main = function () {
 
-  bookmarks.bindEventListeners();
-  bookmars.render();
+  //bookmarks.bindEventListeners();
+  bookmarks.render();
   
 };
 
