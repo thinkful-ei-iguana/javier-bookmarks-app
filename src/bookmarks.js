@@ -2,21 +2,21 @@ import $ from 'jquery';
 import api from './api';
 import STORE from './store';
 
-const generateBookMarkHtml = function(bookmarkInd){
+const generateBookMarkHtml = function(bookmark){
     const bookmarkExpand = !bookmarkExpand.expand ? 'bookmark-hide': '';
-    const bookmarkRating = generateStarRating(bookmarkInd);
-
+    // const bookmarkRating = generateStarRating(bookmarkInd);
+    //${bookmarkRating}
     return `
-      <div class="bookmark-condensed-container js-bookmark-condensed-container" data-item-id="${bookmarkInd.id}">
+      <div class="bookmark-condensed-container js-bookmark-condensed-container" data-item-id="${bookmark.id}">
         <button class="expand-button js-expand-button">...</button>  
-        <h2 class="bookmark-name js-bookmark-name">${bookmarkInd.title}</h2>
+        <h2 class="bookmark-name js-bookmark-name">${bookmark.title}</h2>
         <div class="bookmark-rating js-bookmark-rating">
-          ${bookmarkRating}
+          <!--bookmarkRating here -->
         </div>
         <div class="bookmark-expand js-bookmark-expand-container ${bookmarkExpand}">
-          <p>Description: ${bookmarkInd.desc}</p>
+          <p>Description: ${bookmark.desc}</p>
           <div class="actions">
-            <a class="bookmark-URL js-bookmark-URL" href=${bookmarkInd.url} target="_blank">Visit Site!</a>
+            <a class="bookmark-URL js-bookmark-URL" href=${bookmark.url} target="_blank">Visit Site!</a>
             <button class="delete-button js-delete-button">Delete</button>
           </div>
         </div>
@@ -27,7 +27,9 @@ const generateBookMarkHtml = function(bookmarkInd){
 //loop through bookmarks and display
 const generateBookMarksHtml = function(bookmarks){
    console.log('bookmarks?',bookmarks)
-    const bookmarksHtml = bookmarks.map(bookmarkInd => generateBookMarkHtml(bookmarkInd));
+
+    const bookmarksHtml = bookmarks.map(bookmark => generateBookMarkHtml(bookmark));
+
   console.log('bookmarkshtml:',bookmarksHtml)
     return bookmarksHtml;
 }
@@ -149,6 +151,7 @@ const render = function(){
         //renderError();
         bindEventListeners();
         STORE.adding = false
+        //render bookmarks if any
     } else if(!STORE.adding) {
         let bookmarksCopy = [...STORE.bookmarks]
         console.log('copy?',bookmarksCopy)

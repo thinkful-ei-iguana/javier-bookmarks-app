@@ -80,7 +80,7 @@ background-color: rgb(252, 238, 240);
 
 .button-add {
   font-size: 20px;
-  font-family: 'Dosis', sans serif;
+  font-family: sans-serif;
   background-color: white;
   border-radius: 12px;
   padding: 3px, 7px, 3px, 5px;
@@ -98,7 +98,7 @@ margin-right: 10px;
 
 #star-rating-filter {
   font-size: 16px;
-  font-family: 'Dosis', sans serif;
+  font-family: sans-serif;
   background-color: white;
   box-shadow: 0 1px 0 1px lightgray;
 }
@@ -110,7 +110,7 @@ margin-right: 10px;
   margin-bottom: 0px;
   margin-right: 5px;
   margin-left: 5px;
-  background-color: rgb(239, 255, 255);
+  background-color: rgb(89, 93, 237);
 }
 
 .bookmark-name {
@@ -162,7 +162,7 @@ a:hover {
 
 .delete-button {
   font-size: 20px;
-  font-family: 'Dosis', sans serif;
+  font-family: sans serif;
   background-color: white;
   border-radius: 12px;
   padding: 3px, 7px, 3px, 5px;
@@ -173,7 +173,7 @@ a:hover {
 
 .edit-button {
   font-size: 20px;
-  font-family: 'Dosis', sans serif;
+  font-family: sans-serif;
   background-color: white;
   border-radius: 12px;
   padding: 3px, 7px, 3px, 5px;
@@ -208,7 +208,7 @@ textarea {
 input[type="submit"],
 input[type="reset"],
 input[type="button"] {
-  font-family: 'Dosis', sans serif;
+  font-family: sans-serif;
   background-color: white;
   box-shadow: 0 1px 0 1px lightgray;
 }
