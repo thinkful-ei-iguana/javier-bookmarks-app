@@ -34,9 +34,9 @@ const generateBookMarksHtml = function(bookmarks){
     return bookmarksHtml;
 }
 
-const generateHeaderUserControls = function() {
+const generateBookmarkForm = function() {
     $('#main').html(`
-    <!-- BOOKMARKS HEADER -->
+    
     <header role="banner">
     <h1>Bookmark This</h1>
   </header>
@@ -142,7 +142,7 @@ const handleBookmarkSubmit = function(){
 }
 
 const render = function(){
-    $('#main').html(generateHeaderUserControls())
+    $('#main').html(generateBookmarkForm())
     // render bookmark form if adding: true
     if(STORE.adding){
         $('.user-controls').toggleClass('bookmark-hide');
