@@ -3,27 +3,27 @@ import api from './api';
 import STORE from './store';
 
 const generateBookMarkHtml = function(bookmark){
-    // let bookmarkExpand = bookmarkExpand.expand 
-    //? 'bookmark-hide': '';
+    let bookmarkExpand = !bookmark.expand ? 'bookmark-hide': '';
     // const bookmarkRating = generateStarRating(bookmarkInd);
     //${bookmarkRating}
 
-    // <div class="bookmark-expand js-bookmark-expand-container ${bookmarkExpand}">
-    //       <p>Description: ${bookmark.desc}</p>
-    //       <div class="actions">
-    //         <a class="bookmark-URL js-bookmark-URL" href=${bookmark.url} target="_blank">Visit Site!</a>
-    //         <button class="delete-button js-delete-button">Delete</button>
-    //       </div>
-    //     </div>
+    
     return `
       <div class="bookmark-condensed-container js-bookmark-condensed-container" data-item-id="${bookmark.id}">
         <button class="expand-button js-expand-button">...</button>  
         <h2 class="bookmark-name js-bookmark-name">${bookmark.title}</h2>
+
         <div class="bookmark-rating js-bookmark-rating">
           <!--bookmarkRating here -->
         </div>
 
-        <!--EPAND GOES HERE-->
+        <div class="bookmark-expand js-bookmark-expand-container ${bookmarkExpand}">
+          <p>Description: ${bookmark.desc}</p>
+          <div class="actions">
+            <a class="bookmark-URL js-bookmark-URL" href=${bookmark.url} target="_blank">Visit Site!</a>
+            <button class="delete-button js-delete-button">Delete</button>
+          </div>
+        </div>
 
 
       </div>
@@ -32,12 +32,11 @@ const generateBookMarkHtml = function(bookmark){
 }
 //loop through bookmarks and display
 const generateBookMarksHtml = function(bookmarks){
-   console.log('bookmarks?',bookmarks)
+   //console.log('bookmarks?',bookmarks)
 
     const bookmarksHtml = bookmarks.map(bookmark => generateBookMarkHtml(bookmark));
 
-  console.log('bookmarkshtml:',bookmarksHtml)
-    return bookmarksHtml;
+    return bookmarksHtml.join('');
 }
 
 const generateBookmarkForm = function() {
@@ -78,7 +77,7 @@ const generateBookMarkAddHtml = function(){
   <fieldset role="group">
     <legend class="form">Bookmark Information</legend>
     <label class="form" for="title">Title:</label><br>
-    <input type="text" id="title" name="title" ><br>
+    <input type="text" id="title" name="title" required><br>
     <div class"bookmark-hide" role="radiogroup" aria-labelledby="rating">
       <label class="form" id="rating">Rating:</label><br>
       <label class="bookmark-hide" for="rating5">5 stars</label>
@@ -96,7 +95,7 @@ const generateBookMarkAddHtml = function(){
       <textarea name="desc" id="bookmark-description" cols="100" rows="10" ></textarea>
     </lable><br>
     <label class="form" for="url">Bookmark URL:</label><br>
-    <input type="url" name="url" id="url" ><br>
+    <input type="url" name="url" id="url" required><br>
     <div class="url-warning-container">
       <p class="url-warning"> URL must include HTTP/HTTPS</p>
     </div>
@@ -159,9 +158,9 @@ const render = function(){
         STORE.adding = false
         //render bookmarks if any
     } else if(!STORE.adding) {
-        let bookmarksCopy = [...STORE.bookmarks]
-        console.log('copy?',bookmarksCopy)
-        console.log('objs in store?',STORE.bookmarks)
+        //let bookmarksCopy = [...STORE.bookmarks]
+        //console.log('copy?',bookmarksCopy)
+        //console.log('objs in store?',STORE.bookmarks)
         // send bookmarks object to generate html
         const bookmarkHtml = generateBookMarksHtml(STORE.bookmarks)
         // add the html to the bookmark container
@@ -171,7 +170,24 @@ const render = function(){
      //renderError();
 }
 
+const getBookmarkIdFromElement = function(targetElement){
+    return $(targetElement)
+    .closest('.js-bookmark-condensed-container')
+    .data('item-id')
+}
+
+const handleBookmarkExpand = function(){
+    $('#main').on('click','.js-expand-button', e => {
+        console.log('expand was clicked')
+        const id = getBookmarkIdFromElement(e.currentTarget);
+        console.log(id)
+        STORE.expandBookmark(id);
+        render();
+    })
+}
+
 const bindEventListeners = function(){
+    handleBookmarkExpand();
     handleBookMarkAdd();
     handleBookmarkSubmit();
 }

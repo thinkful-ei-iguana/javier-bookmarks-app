@@ -10,13 +10,25 @@ const addBookmark = function (bookmark) {
       bookmarks[i].expand = false;
     }
   }
-  // bookmarks.forEach(bookmarkInd => (bookmarkInd.expand = false));
-
   // adds bookmark to store
   bookmarks.push(bookmark);
   // toggles adding state
   adding = false;
 };
+
+const expandBookmark = function(id){
+  //find id to expand
+  let expandedBookmark = bookmarks.find(bookmark => bookmark.id === id)
+  console.log('expanded:',expandedBookmark);
+  //toggle expand value
+  if(expandedBookmark.expand){
+    expandedBookmark.expand = false;
+    console.log('expanded false:',expandedBookmark.expand)
+  } else {
+    expandedBookmark.expand = true
+    console.log('expanded true:',expandedBookmark.expand)
+  }
+}
 
 export default {
   bookmarks,
@@ -24,4 +36,5 @@ export default {
   error,
   filter,
   addBookmark,
+  expandBookmark,
 }
