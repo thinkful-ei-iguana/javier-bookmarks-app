@@ -177,7 +177,7 @@ const getBookmarkIdFromElement = function(targetElement){
 }
 
 const handleBookmarkExpand = function(){
-    $('#main').on('click','.js-expand-button', e => {
+    $('.js-bookmark-container').on('click','.js-expand-button', e => {
         console.log('expand was clicked')
         const id = getBookmarkIdFromElement(e.currentTarget);
         console.log(id)

@@ -19,7 +19,7 @@ const addBookmark = function (bookmark) {
 const expandBookmark = function(id){
   //find id to expand
   let expandedBookmark = bookmarks.find(bookmark => bookmark.id === id)
-  console.log('expanded:',expandedBookmark);
+  console.log(expandedBookmark)
   //toggle expand value
   if(expandedBookmark.expand){
     expandedBookmark.expand = false;
