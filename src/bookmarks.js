@@ -2,7 +2,35 @@ import $ from 'jquery';
 import api from './api';
 import STORE from './store';
 
+const generateBookMarkHtml = function(bookmarkInd){
+    const bookmarkExpand = !bookmarkExpand.expand ? 'bookmark-hide': '';
+    const bookmarkRating = generateStarRating(bookmarkInd);
 
+    return `
+      <div class="bookmark-condensed-container js-bookmark-condensed-container" data-item-id="${bookmarkInd.id}">
+        <button class="expand-button js-expand-button">...</button>  
+        <h2 class="bookmark-name js-bookmark-name">${bookmarkInd.title}</h2>
+        <div class="bookmark-rating js-bookmark-rating">
+          ${bookmarkRating}
+        </div>
+        <div class="bookmark-expand js-bookmark-expand-container ${bookmarkExpand}">
+          <p>Description: ${bookmarkInd.desc}</p>
+          <div class="actions">
+            <a class="bookmark-URL js-bookmark-URL" href=${bookmarkInd.url} target="_blank">Visit Site!</a>
+            <button class="delete-button js-delete-button">Delete</button>
+          </div>
+        </div>
+      </div>
+    `;
+
+}
+//loop through bookmarks and display
+const generateBookMarksHtml = function(bookmarks){
+   console.log('bookmarks?',bookmarks)
+    const bookmarksHtml = bookmarks.map(bookmarkInd => generateBookMarkHtml(bookmarkInd));
+  console.log('bookmarkshtml:',bookmarksHtml)
+    return bookmarksHtml;
+}
 
 const generateHeaderUserControls = function() {
     $('#main').html(`
@@ -35,7 +63,7 @@ const generateHeaderUserControls = function() {
   };
     
 
-const generateBookMakrHtml = function(){
+const generateBookMarkAddHtml = function(){
    return `
 <div class="add-bookmark-container">
 <form class="add-bookmark-form"> 
@@ -75,6 +103,8 @@ const generateBookMakrHtml = function(){
 `;
 }
 
+
+
 const serializeJson = function(form) {
     const formData = new FormData(form);
     const o = {};
@@ -82,6 +112,7 @@ const serializeJson = function(form) {
     return JSON.stringify(o);
   };
 
+  //change on click adding: false => adding: true
 const handleBookMarkAdd = function(){
     $('#main').on('click','.js-button-add',function() {
         //console.log('add button was clicked')
@@ -110,16 +141,25 @@ const handleBookmarkSubmit = function(){
 
 const render = function(){
     $('#main').html(generateHeaderUserControls())
-    
+    // render bookmark form if adding: true
     if(STORE.adding){
         $('.user-controls').toggleClass('bookmark-hide');
         $('.js-error-container-main').toggleClass('bookmark-hide');
-        $('.js-bookmark-container').html(generateBookMakrHtml());
-       // renderError();
-       bindEventListeners();
+        $('.js-bookmark-container').html(generateBookMarkAddHtml());
+        //renderError();
+        bindEventListeners();
+        STORE.adding = false
+    } else if(!STORE.adding) {
+        let bookmarksCopy = [...STORE.bookmarks]
+        console.log('copy?',bookmarksCopy)
+        console.log('objs in store?',STORE.bookmarks)
+        // send bookmarks object to generate html
+        const bookmarkHtml = generateBookMarksHtml(STORE.bookmarks)
+        // add the html to the bookmark container
+        $('.js-bookmark-container').html(bookmarkHtml);
+        bindEventListeners();
     }
-
-
+     //renderError();
 }
 
 const bindEventListeners = function(){

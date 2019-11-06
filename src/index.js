@@ -11,19 +11,15 @@ import bookmarks from './bookmarks.js'
 
 const main = function () {
   api.getBookmarks()
-  // Once bookmarks are retrieved (bookmark structure => [{bookmark}, {bookmark}, {bookmark}] )
     .then(res => res.json())
     .then(res => {
-      console.log(res)
+      console.log('API response:',res)
       res.forEach(bookmark => STORE.addBookmark(bookmark))
     })
-      
+    bookmarks.bindEventListeners();
       // render the page
       bookmarks.render();
     console.log('should be obj in bookmarks:', STORE.bookmarks)
-  bookmarks.bindEventListeners();
-  bookmarks.render();
-  //api.getBookmarks();
   
 };
 
