@@ -2,9 +2,21 @@ import $ from 'jquery';
 import api from './api';
 import STORE from './store';
 
+const generateStarRating = function(bookmark){
+    let starRating;
+    let starChecked = bookmark.rating;
+    let starUnchecked = (5 - starChecked);
+    const starCheckedHtml = `<span class="fa fa-star checked"></span>`;
+    const starUncheckedHtml = `<span class="fa fa-star"></span>`
+
+    starRating = starCheckedHtml.repeat(starChecked) + starUncheckedHtml.repeat(starUnchecked);
+
+    return starRating;
+}
+
 const generateBookMarkHtml = function(bookmark){
     let bookmarkExpand = !bookmark.expand ? 'bookmark-hide': '';
-    // const bookmarkRating = generateStarRating(bookmarkInd);
+    const bookmarkRating = generateStarRating(bookmark);
     //${bookmarkRating}
 
     
@@ -14,7 +26,7 @@ const generateBookMarkHtml = function(bookmark){
         <h2 class="bookmark-name js-bookmark-name">${bookmark.title}</h2>
 
         <div class="bookmark-rating js-bookmark-rating">
-          <!--bookmarkRating here -->
+          ${bookmarkRating}
         </div>
 
         <div class="bookmark-expand js-bookmark-expand-container ${bookmarkExpand}">
@@ -129,7 +141,7 @@ const handleBookMarkAdd = function(){
         render();
     })
 }
-
+//bookmark form
 const handleBookmarkSubmit = function(){
     $('.add-bookmark-form').submit(function(event){
         event.preventDefault();
@@ -145,7 +157,7 @@ const handleBookmarkSubmit = function(){
         render();
     })
 }
-
+//render
 const render = function(){
     $('#main').html(generateBookmarkHeader())
     // render bookmark form if adding: true
@@ -158,9 +170,7 @@ const render = function(){
         STORE.adding = false
         //render bookmarks if any
     } else {
-        // let bookmarksStoreCopy = [...STORE.bookmarks]
-        // console.log('copy:',bookmarksStoreCopy)
-        console.log(STORE.bookmarks)
+        console.log('bookmarks:',STORE.bookmarks)
         const bookmarkHtml = generateBookMarksHtml(STORE.bookmarks)
         // add the html to the bookmark container
         $('.js-bookmark-container').html(bookmarkHtml);
@@ -169,13 +179,13 @@ const render = function(){
     }
      
 }
-
+//target bookmark ids
 const getBookmarkIdFromElement = function(targetElement){
     return $(targetElement)
     .closest('.js-bookmark-condensed-container')
     .data('item-id')
 }
-
+//expand bookmark details on click
 const handleBookmarkExpand = function(){
     $('.js-bookmark-container').on('click','.js-expand-button', e => {
         console.log('expand was clicked')
@@ -185,7 +195,7 @@ const handleBookmarkExpand = function(){
         render();
     })
 }
-
+//Delete bookmark from api/store
 const handleBookmarkDelete = function(){
     $('.js-delete-button').on('click', (e) => {
         console.log('clicked')
@@ -197,14 +207,20 @@ const handleBookmarkDelete = function(){
         api.deleteBookmark(id)
             .then(() =>{
                 STORE.deleteBookmark(id);
-                
-                console.log(STORE.bookmarks)
                 render()
             })
     })
 }
 
+const handleBookmarkCancel = function(){
+    $('.js-cancel-button').on('click',function(){
+        STORE.setAdding(false);
+        render();
+    })
+}
+
 const bindEventListeners = function(){
+    handleBookmarkCancel();
     handleBookmarkDelete();
     handleBookmarkExpand();
     handleBookMarkAdd();

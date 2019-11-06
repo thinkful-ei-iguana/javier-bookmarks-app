@@ -31,6 +31,10 @@ const deleteBookmark = function(id){
  this.bookmarks = this.bookmarks.filter(bookmark => bookmark.id !== id);
 }
 
+const setAdding = function(param){
+  this.adding = param
+}
+
 export default {
   bookmarks,
   adding,
@@ -39,4 +43,5 @@ export default {
   addBookmark,
   expandBookmark,
   deleteBookmark,
+  setAdding,
 }
