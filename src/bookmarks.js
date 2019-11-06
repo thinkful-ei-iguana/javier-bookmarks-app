@@ -97,10 +97,8 @@ const handleBookmarkSubmit = function(){
         event.preventDefault();
        
         let formElement = $('.add-bookmark-form')[0];
-        console.log('this is the formElement',formElement);
         let jsonObj = serializeJson(formElement);
-        console.log('logged jsonObj:',jsonObj);
-
+        
         api.createBookmark(jsonObj)
             .then(newBookMark => {
                 STORE.addBookmark(newBookMark);

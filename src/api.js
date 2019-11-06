@@ -27,8 +27,6 @@ function listApiFetch(...args) {
 const getBookmarks = function () {
   
   return fetch(`${BASE_URL}/bookmarks`)
-            .then(res => res.json())
-            .then(res => console.log(res))
   
 };
 
