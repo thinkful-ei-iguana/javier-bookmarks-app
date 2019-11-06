@@ -15,12 +15,9 @@ const main = function () {
     .then(res => {
       console.log('API response:',res)
       res.forEach(bookmark => STORE.addBookmark(bookmark))
+      bookmarks.render()
     })
     bookmarks.bindEventListeners();
-      // render the page
-      bookmarks.render();
-    console.log('should be obj in bookmarks:', STORE.bookmarks)
-  
 };
 
 $(main);

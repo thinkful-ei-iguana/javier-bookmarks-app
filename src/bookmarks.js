@@ -39,7 +39,7 @@ const generateBookMarksHtml = function(bookmarks){
     return bookmarksHtml.join('');
 }
 
-const generateBookmarkForm = function() {
+const generateBookmarkHeader = function() {
     $('#main').html(`
     
     <header role="banner">
@@ -147,27 +147,27 @@ const handleBookmarkSubmit = function(){
 }
 
 const render = function(){
-    $('#main').html(generateBookmarkForm())
+    $('#main').html(generateBookmarkHeader())
     // render bookmark form if adding: true
     if(STORE.adding){
-        $('.user-controls').toggleClass('bookmark-hide');
-        $('.js-error-container-main').toggleClass('bookmark-hide');
+       // $('.user-controls').toggleClass('bookmark-hide');
+       // $('.js-error-container-main').toggleClass('bookmark-hide');
         $('.js-bookmark-container').html(generateBookMarkAddHtml());
-        //renderError();
+        
         bindEventListeners();
         STORE.adding = false
         //render bookmarks if any
-    } else if(!STORE.adding) {
-        //let bookmarksCopy = [...STORE.bookmarks]
-        //console.log('copy?',bookmarksCopy)
-        //console.log('objs in store?',STORE.bookmarks)
-        // send bookmarks object to generate html
+    } else {
+        // let bookmarksStoreCopy = [...STORE.bookmarks]
+        // console.log('copy:',bookmarksStoreCopy)
+        console.log(STORE.bookmarks)
         const bookmarkHtml = generateBookMarksHtml(STORE.bookmarks)
         // add the html to the bookmark container
         $('.js-bookmark-container').html(bookmarkHtml);
         bindEventListeners();
+       
     }
-     //renderError();
+     
 }
 
 const getBookmarkIdFromElement = function(targetElement){
@@ -186,7 +186,26 @@ const handleBookmarkExpand = function(){
     })
 }
 
+const handleBookmarkDelete = function(){
+    $('.js-delete-button').on('click', (e) => {
+        console.log('clicked')
+        const id = $(e.currentTarget)
+                    .parent()
+                    .parent()
+                    .parent()
+                    .data('item-id');
+        api.deleteBookmark(id)
+            .then(() =>{
+                STORE.deleteBookmark(id);
+                
+                console.log(STORE.bookmarks)
+                render()
+            })
+    })
+}
+
 const bindEventListeners = function(){
+    handleBookmarkDelete();
     handleBookmarkExpand();
     handleBookMarkAdd();
     handleBookmarkSubmit();

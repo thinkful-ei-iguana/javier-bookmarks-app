@@ -42,7 +42,16 @@ const createBookmark = function(obj){
   return listApiFetch(BASE_URL+'/bookmarks',options)
 }
 
+const deleteBookmark = function(objId){
+  const options = {
+    method: 'DELETE',
+    headers: ({'Content-type': 'application/json'})
+  }
+  return listApiFetch(BASE_URL+'/bookmarks/'+objId,options)
+}
+
 export default{
   getBookmarks,
   createBookmark,
+  deleteBookmark,
 }

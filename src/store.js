@@ -19,15 +19,16 @@ const addBookmark = function (bookmark) {
 const expandBookmark = function(id){
   //find id to expand
   let expandedBookmark = bookmarks.find(bookmark => bookmark.id === id)
-  console.log(expandedBookmark)
   //toggle expand value
   if(expandedBookmark.expand){
     expandedBookmark.expand = false;
-    console.log('expanded false:',expandedBookmark.expand)
   } else {
     expandedBookmark.expand = true
-    console.log('expanded true:',expandedBookmark.expand)
   }
+}
+
+const deleteBookmark = function(id){
+ this.bookmarks = this.bookmarks.filter(bookmark => bookmark.id !== id);
 }
 
 export default {
@@ -37,4 +38,5 @@ export default {
   filter,
   addBookmark,
   expandBookmark,
+  deleteBookmark,
 }
