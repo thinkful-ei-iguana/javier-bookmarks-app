@@ -1,4 +1,4 @@
-const BASE_URL = 'https://thinkful-list-api.herokuapp.com/javier/bookmarks';
+const BASE_URL = 'https://thinkful-list-api.herokuapp.com/javier';
 
 function listApiFetch(...args) {
   let error;
@@ -24,11 +24,27 @@ function listApiFetch(...args) {
     });
 }
 
-const getItems = function () {
-  return fetch(`${BASE_URL}/items`);
-  //return Promise.resolve('A successful response!');
+const getBookmarks = function () {
+  
+  return fetch(`${BASE_URL}/bookmarks`)
+            .then(res => res.json())
+            .then(res => console.log(res))
+  
 };
 
+const createBookmark = function(obj){
+  const newBookmark = obj;
+  console.log('newbookmark:', newBookmark)
+  const options = {
+    method: 'POST',
+    headers: ({'Content-type': 'application/json'}),
+    body: newBookmark,
+  }
+  
+  return listApiFetch(BASE_URL+'/bookmarks',options)
+}
+
 export default{
-  getItems,
+  getBookmarks,
+  createBookmark,
 }

@@ -2,17 +2,18 @@ import $ from 'jquery';
 import api from './api';
 import 'normalize.css';
 import './index.css';
-import store from './store.js';
+import STORE from './store.js';
 import bookmarks from './bookmarks.js'
 
 
-
-
+// api.createBookmark('google','5','http://www.google.com','somethings',false)
+// const createBookmark = function(title,rating,url,description,expanded)
 
 const main = function () {
-
-  //bookmarks.bindEventListeners();
+  //console.log(STORE)
+  bookmarks.bindEventListeners();
   bookmarks.render();
+  //api.getBookmarks();
   
 };
 
