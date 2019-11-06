@@ -3,9 +3,18 @@ import api from './api';
 import STORE from './store';
 
 const generateBookMarkHtml = function(bookmark){
-    const bookmarkExpand = !bookmarkExpand.expand ? 'bookmark-hide': '';
+    // let bookmarkExpand = bookmarkExpand.expand 
+    //? 'bookmark-hide': '';
     // const bookmarkRating = generateStarRating(bookmarkInd);
     //${bookmarkRating}
+
+    // <div class="bookmark-expand js-bookmark-expand-container ${bookmarkExpand}">
+    //       <p>Description: ${bookmark.desc}</p>
+    //       <div class="actions">
+    //         <a class="bookmark-URL js-bookmark-URL" href=${bookmark.url} target="_blank">Visit Site!</a>
+    //         <button class="delete-button js-delete-button">Delete</button>
+    //       </div>
+    //     </div>
     return `
       <div class="bookmark-condensed-container js-bookmark-condensed-container" data-item-id="${bookmark.id}">
         <button class="expand-button js-expand-button">...</button>  
@@ -13,13 +22,10 @@ const generateBookMarkHtml = function(bookmark){
         <div class="bookmark-rating js-bookmark-rating">
           <!--bookmarkRating here -->
         </div>
-        <div class="bookmark-expand js-bookmark-expand-container ${bookmarkExpand}">
-          <p>Description: ${bookmark.desc}</p>
-          <div class="actions">
-            <a class="bookmark-URL js-bookmark-URL" href=${bookmark.url} target="_blank">Visit Site!</a>
-            <button class="delete-button js-delete-button">Delete</button>
-          </div>
-        </div>
+
+        <!--EPAND GOES HERE-->
+
+
       </div>
     `;
 
