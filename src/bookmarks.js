@@ -2,6 +2,7 @@ import $ from 'jquery';
 import api from './api';
 import STORE from './store';
 
+
 const generateStarRating = function(bookmark){
     let starRating;
     let starChecked = bookmark.rating;
@@ -16,10 +17,7 @@ const generateStarRating = function(bookmark){
 
 const generateBookMarkHtml = function(bookmark){
     let bookmarkExpand = !bookmark.expand ? 'bookmark-hide': '';
-    const bookmarkRating = generateStarRating(bookmark);
-    //${bookmarkRating}
-
-    
+    let bookmarkRating = generateStarRating(bookmark);
     return `
       <div class="bookmark-condensed-container js-bookmark-condensed-container" data-item-id="${bookmark.id}">
         <button class="expand-button js-expand-button">...</button>  
@@ -154,7 +152,6 @@ const handleBookmarkSubmit = function(){
                 STORE.addBookmark(newBookMark);
                 render();
             })
-        render();
     })
 }
 //render
@@ -188,9 +185,7 @@ const getBookmarkIdFromElement = function(targetElement){
 //expand bookmark details on click
 const handleBookmarkExpand = function(){
     $('.js-bookmark-container').on('click','.js-expand-button', e => {
-        console.log('expand was clicked')
         const id = getBookmarkIdFromElement(e.currentTarget);
-        console.log(id)
         STORE.expandBookmark(id);
         render();
     })
@@ -198,7 +193,6 @@ const handleBookmarkExpand = function(){
 //Delete bookmark from api/store
 const handleBookmarkDelete = function(){
     $('.js-delete-button').on('click', (e) => {
-        console.log('clicked')
         const id = $(e.currentTarget)
                     .parent()
                     .parent()
