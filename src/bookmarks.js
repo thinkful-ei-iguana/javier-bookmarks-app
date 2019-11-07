@@ -42,8 +42,6 @@ const generateBookMarkHtml = function (bookmark) {
 }
 //loop through bookmarks and display
 const generateBookMarksHtml = function (bookmarks) {
-    //console.log('bookmarks?',bookmarks)
-
     const bookmarksHtml = bookmarks.map(bookmark => generateBookMarkHtml(bookmark));
 
     return bookmarksHtml.join('');
@@ -160,7 +158,7 @@ const serializeJson = function (form) {
 //change on click adding: false => adding: true
 const handleBookMarkAdd = function () {
     $('#main').on('click', '.js-button-add', function () {
-        console.log('add button was clicked')
+        //console.log('add button was clicked')
         if (!STORE.adding) {
             STORE.adding = true;
         }
@@ -191,7 +189,7 @@ const render = function () {
     $('#main').html(generateBookmarkHeader())
     // render bookmark form if adding: true
     if (STORE.adding) {
-        console.log('adding test')
+        //console.log('adding test')
         $('.user-controls').toggleClass('bookmark-hide');
         $('.js-error-container-main').toggleClass('bookmark-hide');
         $('.js-bookmark-container').html(generateBookMarkAddHtml());
@@ -207,7 +205,7 @@ const render = function () {
         STORE.filteredBookmarks = []
         bindEventListeners();
     } else {
-        console.log('bookmarks:', STORE.bookmarks)
+        
         const bookmarkHtml = generateBookMarksHtml(STORE.bookmarks)
         // add the html to the bookmark container
         $('.js-bookmark-container').html(bookmarkHtml);

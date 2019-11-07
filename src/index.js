@@ -10,7 +10,6 @@ const main = function () {
   api.getBookmarks()
     .then(res => res.json())
     .then(res => {
-      console.log('API response:', res)
       res.forEach(bookmark => STORE.addBookmark(bookmark))
       bookmarks.render()
     })
