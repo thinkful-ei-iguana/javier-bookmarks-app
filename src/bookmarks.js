@@ -170,7 +170,7 @@ const render = function () {
         let bookmarksFilteredCopy = [...STORE.filteredBookmarks];
         const bookmarkFilteredHtml = generateBookMarksHtml(bookmarksFilteredCopy);
         $('.js-bookmark-container').html(bookmarkFilteredHtml);
-        STORE.setFiltering = false;
+        STORE.filteredBookmarks = []
         bindEventListeners();
     } else {
         console.log('bookmarks:', STORE.bookmarks)
