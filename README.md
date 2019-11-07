@@ -1,8 +1,8 @@
-# BookSmarts
+# Bookmark This
 
-BookSmarts is an app that allows you to create, store, rate, and visit links to your favorite bookmarks.
+Bookmark This is an app that allows you to create, store, rate, and visit links to your favorite bookmarks.
 
-Whitney Wallace's submission for Thinkful Engineering Immersion Bookmarks App Project.
+Javier Zapien's submission for Thinkful Engineering Immersion Bookmarks App Project.
 
 ## Requirements
 
@@ -42,5 +42,4 @@ The project must:
 3. Submit the repo URL in the curriculum checkpoint.
 
 #### link to live version
-
-
+[Live App](https://github.com/thinkful-ei-iguana/javier-bookmarks-app)
