@@ -8,8 +8,8 @@ function listApiFetch(...args) {
         // Valid HTTP response but non-2xx status - let's create an error!
         error = {
           code: res.status
-        };
-      }
+        }; 
+      } 
 
       // In either case, parse the JSON stream:
       return res.json();
