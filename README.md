@@ -41,5 +41,6 @@ The project must:
 2. Add the live GH Pages link to the header of your repo.
 3. Submit the repo URL in the curriculum checkpoint.
 
-#### 
+#### link to live version
+https://thinkful-ei-iguana.github.io/javier-bookmarks-app/
 
