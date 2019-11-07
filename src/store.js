@@ -43,13 +43,18 @@ const filterBookmarks = function (filterNumber) {
     if (bookmark.rating >= filterNumber) {
       this.filteredBookmarks.push(bookmark)
     }
-  
+
   })
 }
 
 //toggle filter state in store
 const setFiltering = function (param) {
   this.filter = param
+}
+
+//sets error
+const setError = function(erroMessage){
+  this.error = errorMessage
 }
 
 export default {
@@ -62,6 +67,7 @@ export default {
   deleteBookmark,
   setAdding,
   setFiltering,
+  setError,
   filterBookmarks,
   filteredBookmarks,
 }

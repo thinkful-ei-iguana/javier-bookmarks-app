@@ -141,7 +141,6 @@ background-color: white;
 border-radius: 12px;
 margin-right: 5px;
 margin-top: 5px;
-box-shadow: 0 1px 0 1px lightgray;
 }
 
 .bookmark-expand p, a {
@@ -157,7 +156,7 @@ a {
 }
 
 a:hover {
-  color: turquoise;
+  color: rgb(1, 22, 103);
 }
 
 .delete-button {
@@ -168,7 +167,6 @@ a:hover {
   padding: 3px, 7px, 3px, 5px;
   margin-bottom: 10px;
   margin-right: 10px;
-  box-shadow: 0 1px 0 1px lightgray;
 }
 
 .edit-button {
@@ -224,4 +222,19 @@ input[type="button"] {
 
 .footer-space {
   height: 25px;
+}
+
+/******MEDIA QUERIES*****/
+@media screen and (max-width: 283px) {
+  body {
+    width: 283px;
+  }
+}
+
+@media screen and (min-width: 500px) {
+
+  .flex-container {
+    width: 500px;
+
+  }
 }

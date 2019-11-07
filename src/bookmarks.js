@@ -119,8 +119,36 @@ const generateBookMarkAddHtml = function () {
 </div>
 `;
 }
+const generateError = function(errorMessage){
+    return `
+    <!-- ERROR DISPLAY -->
+    <div class="error-container js-error-container">
+      <button id="cancel-error">X</button>
+      <h2>ERROR!</h2>
+      <p>${errorMessage}</p>
+    </div>
+    `
+}
 
+const renderButtonClose = function(){
+    $('.js-error-container').remove();
+}
 
+// if there is an error, render error container
+const renderError = function() {
+
+    if (STORE.error) {
+      if (STORE.adding) {
+        const errorMessage = generateError(STORE.error);
+        $('.flex-container').after(errorMessage);
+      } else if (!STORE.adding) {
+        const errorMessage = generateError(STORE.error);
+        $('.user-controls').after(errorMessage);
+      } 
+    } else {
+      $('.js-error-container').empty();
+    }
+  };
 
 const serializeJson = function (form) {
     const formData = new FormData(form);
@@ -151,7 +179,11 @@ const handleBookmarkSubmit = function () {
             .then(newBookMark => {
                 STORE.addBookmark(newBookMark);
                 render();
+            }).catch((e) => {
+                STORE.setError(e.message);
+                renderError();
             })
+            render();
     })
 }
 //render
@@ -160,9 +192,10 @@ const render = function () {
     // render bookmark form if adding: true
     if (STORE.adding) {
         console.log('adding test')
-        // $('.user-controls').toggleClass('bookmark-hide');
-        // $('.js-error-container-main').toggleClass('bookmark-hide');
+        $('.user-controls').toggleClass('bookmark-hide');
+        $('.js-error-container-main').toggleClass('bookmark-hide');
         $('.js-bookmark-container').html(generateBookMarkAddHtml());
+        renderError()
         bindEventListeners();
         
         //render bookmarks if any
@@ -170,6 +203,7 @@ const render = function () {
         let bookmarksFilteredCopy = [...STORE.filteredBookmarks];
         const bookmarkFilteredHtml = generateBookMarksHtml(bookmarksFilteredCopy);
         $('.js-bookmark-container').html(bookmarkFilteredHtml);
+        renderError();
         STORE.filteredBookmarks = []
         bindEventListeners();
     } else {
@@ -177,6 +211,7 @@ const render = function () {
         const bookmarkHtml = generateBookMarksHtml(STORE.bookmarks)
         // add the html to the bookmark container
         $('.js-bookmark-container').html(bookmarkHtml);
+        renderError();
         bindEventListeners();
 
     }
@@ -208,8 +243,18 @@ const handleBookmarkDelete = function () {
             .then(() => {
                 STORE.deleteBookmark(id);
                 render()
+            }).catch((e) => {
+                STORE.setError(e.message);
+                renderError();
             })
     })
+}
+
+const handleErrorClose = function(){
+    $('.flex-container').on('click', '#cancel-error', () => {
+        renderButtonClose();
+        STORE.setError(null);
+      });
 }
 
 const handleBookmarkCancel = function () {
@@ -230,6 +275,7 @@ const handleBookmarkFilter = function () {
 }
 
 const bindEventListeners = function () {
+    handleErrorClose();
     handleBookmarkFilter();
     handleBookmarkCancel();
     handleBookmarkDelete();
