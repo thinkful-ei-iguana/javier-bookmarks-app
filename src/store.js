@@ -53,7 +53,7 @@ const setFiltering = function (param) {
 }
 
 //sets error
-const setError = function(erroMessage){
+const setError = function(errorMessage){
   this.error = errorMessage
 }
 
