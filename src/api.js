@@ -6,7 +6,9 @@ function listApiFetch(...args) {
     .then(res => {
       if (!res.ok) {
         // Valid HTTP response but non-2xx status - let's create an error!
-        error = { code: res.status };
+        error = {
+          code: res.status
+        };
       }
 
       // In either case, parse the JSON stream:
@@ -25,32 +27,36 @@ function listApiFetch(...args) {
 }
 
 const getBookmarks = function () {
-  
+
   return fetch(`${BASE_URL}/bookmarks`)
-  
+
 };
 
-const createBookmark = function(obj){
+const createBookmark = function (obj) {
   const newBookmark = obj;
   console.log('newbookmark:', newBookmark)
   const options = {
     method: 'POST',
-    headers: ({'Content-type': 'application/json'}),
+    headers: ({
+      'Content-type': 'application/json'
+    }),
     body: newBookmark,
   }
-  
-  return listApiFetch(BASE_URL+'/bookmarks',options)
+
+  return listApiFetch(BASE_URL + '/bookmarks', options)
 }
 
-const deleteBookmark = function(objId){
+const deleteBookmark = function (objId) {
   const options = {
     method: 'DELETE',
-    headers: ({'Content-type': 'application/json'})
+    headers: ({
+      'Content-type': 'application/json'
+    })
   }
-  return listApiFetch(BASE_URL+'/bookmarks/'+objId,options)
+  return listApiFetch(BASE_URL + '/bookmarks/' + objId, options)
 }
 
-export default{
+export default {
   getBookmarks,
   createBookmark,
   deleteBookmark,

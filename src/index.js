@@ -6,18 +6,15 @@ import STORE from './store.js';
 import bookmarks from './bookmarks.js'
 
 
-// api.createBookmark('google','5','http://www.google.com','somethings',false)
-// const createBookmark = function(title,rating,url,description,expanded)
-
 const main = function () {
   api.getBookmarks()
     .then(res => res.json())
     .then(res => {
-      console.log('API response:',res)
+      console.log('API response:', res)
       res.forEach(bookmark => STORE.addBookmark(bookmark))
       bookmarks.render()
     })
-    bookmarks.bindEventListeners();
+  bookmarks.bindEventListeners();
 };
 
 $(main);

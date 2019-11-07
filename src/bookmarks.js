@@ -3,7 +3,7 @@ import api from './api';
 import STORE from './store';
 
 
-const generateStarRating = function(bookmark){
+const generateStarRating = function (bookmark) {
     let starRating;
     let starChecked = bookmark.rating;
     let starUnchecked = (5 - starChecked);
@@ -15,8 +15,8 @@ const generateStarRating = function(bookmark){
     return starRating;
 }
 
-const generateBookMarkHtml = function(bookmark){
-    let bookmarkExpand = !bookmark.expand ? 'bookmark-hide': '';
+const generateBookMarkHtml = function (bookmark) {
+    let bookmarkExpand = !bookmark.expand ? 'bookmark-hide' : '';
     let bookmarkRating = generateStarRating(bookmark);
     return `
       <div class="bookmark-condensed-container js-bookmark-condensed-container" data-item-id="${bookmark.id}">
@@ -41,15 +41,15 @@ const generateBookMarkHtml = function(bookmark){
 
 }
 //loop through bookmarks and display
-const generateBookMarksHtml = function(bookmarks){
-   //console.log('bookmarks?',bookmarks)
+const generateBookMarksHtml = function (bookmarks) {
+    //console.log('bookmarks?',bookmarks)
 
     const bookmarksHtml = bookmarks.map(bookmark => generateBookMarkHtml(bookmark));
 
     return bookmarksHtml.join('');
 }
 
-const generateBookmarkHeader = function() {
+const generateBookmarkHeader = function () {
     $('#main').html(`
     
     <header role="banner">
@@ -64,11 +64,11 @@ const generateBookmarkHeader = function() {
           <label for="star-rating-filter">Filter by:</label>
           <select name="star-rating" id="star-rating-filter">
             <option value="0">minimum rating</option>
-            <option value="5">5 stars</option>
-            <option value="4">4 stars+</option>
-            <option value="3">3 stars+</option>
-            <option value="2">2 stars+</option>
-            <option value="1">See All</option>
+            <option value="5">5+ stars</option>
+            <option value="4">4+ stars</option>
+            <option value="3">3+ stars</option>
+            <option value="2">2+ stars</option>
+            <option value="1">see all</option>
           </div>
         </select>
       </section>
@@ -77,11 +77,11 @@ const generateBookmarkHeader = function() {
       </section>
     </div>
   </div>`)
-  };
-    
+};
 
-const generateBookMarkAddHtml = function(){
-   return `
+
+const generateBookMarkAddHtml = function () {
+    return `
 <div class="add-bookmark-container">
 <form class="add-bookmark-form"> 
   <fieldset role="group">
@@ -122,31 +122,31 @@ const generateBookMarkAddHtml = function(){
 
 
 
-const serializeJson = function(form) {
+const serializeJson = function (form) {
     const formData = new FormData(form);
     const o = {};
     formData.forEach((val, name) => o[name] = val);
     return JSON.stringify(o);
-  };
+};
 
-  //change on click adding: false => adding: true
-const handleBookMarkAdd = function(){
-    $('#main').on('click','.js-button-add',function() {
-        //console.log('add button was clicked')
-        if(!STORE.adding){
+//change on click adding: false => adding: true
+const handleBookMarkAdd = function () {
+    $('#main').on('click', '.js-button-add', function () {
+        console.log('add button was clicked')
+        if (!STORE.adding) {
             STORE.adding = true;
         }
         render();
     })
 }
 //bookmark form
-const handleBookmarkSubmit = function(){
-    $('.add-bookmark-form').submit(function(event){
+const handleBookmarkSubmit = function () {
+    $('.add-bookmark-form').submit(function (event) {
         event.preventDefault();
-       
+
         let formElement = $('.add-bookmark-form')[0];
         let jsonObj = serializeJson(formElement);
-        
+
         api.createBookmark(jsonObj)
             .then(newBookMark => {
                 STORE.addBookmark(newBookMark);
@@ -155,65 +155,82 @@ const handleBookmarkSubmit = function(){
     })
 }
 //render
-const render = function(){
+const render = function () {
     $('#main').html(generateBookmarkHeader())
     // render bookmark form if adding: true
-    if(STORE.adding){
-       // $('.user-controls').toggleClass('bookmark-hide');
-       // $('.js-error-container-main').toggleClass('bookmark-hide');
+    if (STORE.adding) {
+        console.log('adding test')
+        // $('.user-controls').toggleClass('bookmark-hide');
+        // $('.js-error-container-main').toggleClass('bookmark-hide');
         $('.js-bookmark-container').html(generateBookMarkAddHtml());
-        
         bindEventListeners();
-        STORE.adding = false
+        
         //render bookmarks if any
+    } else if (STORE.filter) {
+        let bookmarksFilteredCopy = [...STORE.filteredBookmarks];
+        const bookmarkFilteredHtml = generateBookMarksHtml(bookmarksFilteredCopy);
+        $('.js-bookmark-container').html(bookmarkFilteredHtml);
+        STORE.setFiltering = false;
+        bindEventListeners();
     } else {
-        console.log('bookmarks:',STORE.bookmarks)
+        console.log('bookmarks:', STORE.bookmarks)
         const bookmarkHtml = generateBookMarksHtml(STORE.bookmarks)
         // add the html to the bookmark container
         $('.js-bookmark-container').html(bookmarkHtml);
         bindEventListeners();
-       
+
     }
-     
+
 }
 //target bookmark ids
-const getBookmarkIdFromElement = function(targetElement){
+const getBookmarkIdFromElement = function (targetElement) {
     return $(targetElement)
-    .closest('.js-bookmark-condensed-container')
-    .data('item-id')
+        .closest('.js-bookmark-condensed-container')
+        .data('item-id')
 }
 //expand bookmark details on click
-const handleBookmarkExpand = function(){
-    $('.js-bookmark-container').on('click','.js-expand-button', e => {
+const handleBookmarkExpand = function () {
+    $('.js-bookmark-container').on('click', '.js-expand-button', e => {
         const id = getBookmarkIdFromElement(e.currentTarget);
         STORE.expandBookmark(id);
         render();
     })
 }
 //Delete bookmark from api/store
-const handleBookmarkDelete = function(){
+const handleBookmarkDelete = function () {
     $('.js-delete-button').on('click', (e) => {
         const id = $(e.currentTarget)
-                    .parent()
-                    .parent()
-                    .parent()
-                    .data('item-id');
+            .parent()
+            .parent()
+            .parent()
+            .data('item-id');
         api.deleteBookmark(id)
-            .then(() =>{
+            .then(() => {
                 STORE.deleteBookmark(id);
                 render()
             })
     })
 }
 
-const handleBookmarkCancel = function(){
-    $('.js-cancel-button').on('click',function(){
+const handleBookmarkCancel = function () {
+    $('.js-cancel-button').on('click', function () {
         STORE.setAdding(false);
         render();
     })
 }
 
-const bindEventListeners = function(){
+const handleBookmarkFilter = function () {
+    $('#star-rating-filter').change(() => {
+        let filterParam = $('#star-rating-filter').val();
+        console.log('rating:', filterParam)
+        STORE.filterBookmarks(filterParam);
+        render()
+        
+    })
+}
+
+const bindEventListeners = function () {
+    handleBookmarkFilter();
     handleBookmarkCancel();
     handleBookmarkDelete();
     handleBookmarkExpand();
@@ -221,7 +238,7 @@ const bindEventListeners = function(){
     handleBookmarkSubmit();
 }
 
-export default{
-   bindEventListeners,
-   render,
+export default {
+    bindEventListeners,
+    render,
 }
